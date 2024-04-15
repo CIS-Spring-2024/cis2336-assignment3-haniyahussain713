@@ -430,7 +430,8 @@
 </div>
 
 
-  
+<form id="myForm">
+
       <h2>Contact Information</h2>
       <label for="name">Name:</label>
       <input type="text" id="name" name="name" required>
@@ -441,7 +442,7 @@
       <input type="tel" id="phone" name="phone" required>
       <br>
     
-]
+
       <h2>Payment Information</h2>
       <label for="cardNumber">Card Number:</label>
       <input type="text" id="cardNumber" name="cardNumber" required>
@@ -457,19 +458,16 @@
         <div>Total Price: <span id="totalPrice">$0.00</span></div>
   
 
-      <button onclick="showAlert()">Submit Order</button>
+        <button onclick="myFunction()" type="submit" id="submitBtn" disabled>Submit</button>
 
-    </form>
+
+      </form>
+  
    
 
   </div>
   
 <script>
-  
-  function showAlert() {
-    var myText = "Thank you for placing your order!";
-    alert (myText);
-  }
 
     document.addEventListener("DOMContentLoaded", function() {
 
@@ -522,6 +520,45 @@ var coll = document.getElementsByClassName("collapsible");
         } 
       });
     }
+const form = document.getElementById('myForm');
+const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('email');
+const phoneInput = document.getElementById('phone');
+const cardNumberInput = document.getElementById('cardNumber');
+const expiryInput = document.getElementById('expiry');
+const cvvInput = document.getElementById('cvv');
+const submitBtn = document.getElementById('submitBtn');
+
+
+function checkFormValidity() {
+    const contactInfoValid = nameInput.validity.valid && emailInput.validity.valid && phoneInput.validity.valid;
+    const cardInfoValid = cardNumberInput.validity.valid && expiryInput.validity.valid && cvvInput.validity.valid;
+    if (contactInfoValid && cardInfoValid) {
+        submitBtn.disabled = false;
+    } else {
+        submitBtn.disabled = true;
+    }
+}
+
+nameInput.addEventListener('input', checkFormValidity);
+emailInput.addEventListener('input', checkFormValidity);
+phoneInput.addEventListener('input', checkFormValidity);
+cardNumberInput.addEventListener('input', checkFormValidity);
+expiryInput.addEventListener('input', checkFormValidity);
+cvvInput.addEventListener('input', checkFormValidity);
+
+
+form.addEventListener('submit', function(event) {
+    if (!nameInput.validity.valid || !emailInput.validity.valid || !phoneInput.validity.valid ||
+        !cardNumberInput.validity.valid || !expiryInput.validity.valid || !cvvInput.validity.valid) {
+        event.preventDefault();
+        console.log('Please fill out all required fields.');
+    }
+});
+function myFunction() {
+  alert("Thank you for placing your order!");
+}
+
 </script>
 </body>
 </html>
